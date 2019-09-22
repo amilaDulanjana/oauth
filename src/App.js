@@ -2,23 +2,30 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import axios from 'axios';
+
+axios.interceptors.response.use(function (response) {
+  debugger;
+  return response;
+}, function (err) {
+  debugger;
+  if (err.response.status && err.response.status === 302) {
+    window.open(err.response.header.location)
+  }
+})
+
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={() => {
+        axios.post('http://172.17.251.89:9191/Oauth/token')
+        .then(res => {
+          debugger;
+        })
+        .catch(err => {
+          debugger;
+        })
+      }}>Login</button>
     </div>
   );
 }
